@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初音ミク STAGE - Consola Hatsune Miku</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-tema="miku">
+<div class="fondo-sakura" id="fondo-sakura"></div>
+
+<!-- PANTALLA DE ENCENDIDO -->
+<div id="encendido">
+    <div class="enc-logo">初音ミク<small>STAGE CONSOLE</small></div>
+    <button id="btn-encender" title="Encender (Enter)"><span>⏻</span></button>
+    <div class="enc-texto">PRESIONA PARA ENCENDER</div>
+    <div class="enc-led"></div>
+</div>
+
+<div class="consola">
+
+    <!-- CONTROL IZQUIERDO -->
+    <div class="control-exterior dpad-exterior">
+        <div class="logo-lateral">初音<br>ミク</div>
+        <div class="dpad">
+            <button class="btn-dpad arriba" id="btn-up" title="Volumen + (↑)">▲</button>
+            <button class="btn-dpad izq" id="btn-left" title="Más lento (←)">◄</button>
+            <span class="btn-dpad-center">●</span>
+            <button class="btn-dpad der" id="btn-right" title="Más rápido (→)">►</button>
+            <button class="btn-dpad abajo" id="btn-down" title="Volumen - (↓)">▼</button>
+        </div>
+        <span class="label-control">◄ ► VELOCIDAD<br>▲ ▼ VOLUMEN</span>
+        <div class="mini-botones">
+            <button class="btn-pill" id="btn-select" title="Cambiar tema (S)">SELECT</button>
+            <button class="btn-pill" id="btn-start" title="Pantalla completa (F)">START</button>
+            <button class="btn-pill btn-power" id="btn-power" title="Apagar (P)">⏻</button>
+        </div>
+    </div>
+
+    <!-- CUERPO CENTRAL -->
+    <div class="interfaz-pc">
+        <div class="barra-titulo">
+            <span class="luz-estado"></span>
+            <span class="titulo">■ 初音ミク // Let Code Live: Hatsune Miku Simulator</span>
+            <span class="ventana-btns">_ □ ✕</span>
+        </div>
+
+        <div class="panel-carga">
+            <label class="slot">
+                <span>🖼 IMÁGENES (miku1 a miku6)</span>
+                <input type="file" id="input-imagenes" multiple accept="image/*">
+            </label>
+            <label class="slot">
+                <span>♪ MÚSICA (musica.wav)</span>
+                <input type="file" id="input-audio" accept="audio/*">
+            </label>
+            <label class="slot">
+                <span>💙 MASCOTA (PNG de Miku, opcional)</span>
+                <input type="file" id="input-mascota" accept="image/*">
+            </label>
+        </div>
+
+        <div class="zona-escenario">
+            <div class="telon telon-izq"></div>
+            <div class="marco-crt">
+                <pre id="pantalla-miku">Por favor, carga las imágenes de Miku para iniciar la simulación...</pre>
+                <div class="scanlines"></div>
+                <div class="hud hud-izq" id="hud-modo">● ASCII ▓</div>
+                <div class="hud hud-der" id="hud-frame">FRAME 00/00</div>
+            </div>
+            <div class="telon telon-der"></div>
+        </div>
+
+        <!-- BARRA DE ESTADO + ECUALIZADOR -->
+        <div class="barra-estado">
+            <canvas id="visualizador" width="260" height="34"></canvas>
+            <div class="datos">
+                <span id="st-vel">VEL 450ms</span>
+                <span id="st-vol">VOL ▮▮▮▮▮▯▯▯▯▯</span>
+                <span id="st-tema">TEMA MIKU</span>
+                <span id="st-pausa">▶ PLAY</span>
+            </div>
+        </div>
+
+        <div id="label-letca">🎤 [KARAOKE] >> Esperando inicio...</div>
+        <pre id="label-publico">PÚBLICO EN ESPERA...</pre>
+
+        <div class="pie">🎵 • A: BINARY • B: PAUSA • SELECT: TEMA • START: FULLSCREEN • TECLAS: A B S F ← ↑ → ↓ ♪ 初音ミク</div>
+    </div>
+
+    <!-- CONTROL DERECHO -->
+    <div class="control-exterior botones-exterior">
+        <div class="logo-lateral">歌<br>舞</div>
+        <div class="botones-ab">
+            <div class="col-b"><span class="label-btn">PAUSA</span><button class="btn-accion" id="btn-b">B</button></div>
+            <div class="col-a"><span class="label-btn">BINARY</span><button class="btn-accion" id="btn-a">A</button></div>
+        </div>
+        <span class="label-control">Console</span>
+        <div class="altavoz"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+</div>
+
+<!-- MASCOTA MIKU -->
+<div id="mascota"><div id="burbuja"></div><img id="mascota-img" alt="Miku"></div>
+<div id="panel-mascota">
+    <h4><span>💙 JUEGA CON ELLA</span><span id="m-puntos">★0</span></h4>
+    <div class="selector">
+        <button data-pj="miku" class="activo">MIKU</button>
+        <button data-pj="rin">RIN</button>
+        <button data-pj="luka">LUKA</button>
+        <button data-pj="kaito">KAITO</button>
+    </div>
+    <div class="rejilla">
+        <button data-modo="pasear">🚶 PASEAR</button>
+        <button data-modo="seguir">👣 SEGUIRME</button>
+        <button data-modo="escapar">🏃 ATRÁPAME</button>
+        <button data-modo="bailar">💃 BAILAR</button>
+        <button data-modo="dormir">😴 DORMIR</button>
+        <button id="m-saludar">👋 SALUDAR</button>
+        <button id="m-negi">🥬 DAR NEGI</button>
+        <button id="m-ocultar">👁 OCULTAR (M)</button>
+    </div>
+    <div class="marcador" id="m-info">Haz clic en Miku 💙</div>
+</div>
+
+<audio id="reproductor-audio" loop></audio>
+<script src="script.js"></script>
+</body>
+</html>
